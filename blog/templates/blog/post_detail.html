@@ -6,10 +6,11 @@
     {% extends 'blog/base.html' %}
 
     {% block content %}
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil">Editar</span></a>
         <div class="post">
             {% if post.published_date %}
                 <div class="date">
-                    {{ post.published_date }}
+                    Publicado el: {{ post.published_date }} por: {{ post.author }}
                 </div>
             {% endif %}
             <h1>{{ post.title }}</h1>
