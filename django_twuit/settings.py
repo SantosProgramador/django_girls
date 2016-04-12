@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'blog',
 )
 
@@ -77,8 +78,12 @@ WSGI_APPLICATION = 'django_twuit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST':'localhost',
+        'NAME': 'django_twuit',
+        'USER': 'santos',
+        'PASSWORD': 'santos',
+        'ATOMIC_REQUEST':True,
     }
 }
 
@@ -103,3 +108,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

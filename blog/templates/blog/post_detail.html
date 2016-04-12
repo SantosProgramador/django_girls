@@ -4,9 +4,10 @@
     </head>
     <body>
     {% extends 'blog/base.html' %}
-
+    {% load crispy_forms_tags %}
     {% block content %}
         <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil">Editar</span></a>
+        <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-trash">Borrar</span></a>
         <div class="post">
             {% if post.published_date %}
                 <div class="date">
@@ -15,6 +16,28 @@
             {% endif %}
             <h1>{{ post.title }}</h1>
             <p>{{ post.text|linebreaks }}</p>
+        </div>
+        <hr>
+        <h3>Comentarios</h3>
+        <hr>
+        <div class="row">
+            {% for comment in comments %}
+                <table>
+                    <tr>
+                        <td>Creado el: {{ comment.created_date}}</td>
+                        <td>-></td>
+                        <td>Comentario: {{ comment.text }}</td>
+                    </tr>
+                </table>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="row">
+            <form method="POST" class="comment-form">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="save btn btn-default">Save</button>
+            </form>
         </div>
     {% endblock %}
     </body>
