@@ -1,13 +1,11 @@
-<html>
-    <head>
-        <title>Mente Colmena</title>
-    </head>
-    <body>
     {% extends 'base.html' %}
     {% load crispy_forms_tags %}
     {% block content %}
-        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil">Editar</span></a>
-        <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-trash">Borrar</span></a>
+        {% if request.user == post.author or user.is_superuser %}
+            <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil">Editar</span></a>
+            <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-trash">Borrar</span></a>
+        {% endif %}
+
         <div class="post">
             {% if post.published_date %}
                 <div class="date">
@@ -18,7 +16,13 @@
             <p>{{ post.text|linebreaks }}</p>
         </div>
         <hr>
-        <h3>Comentarios</h3>
+            <h3>Puntuación</h3>
+            <a class="glyphicon glyphicon-circle-arrow-up btn btn-success" href=""></a>
+            <a class="glyphicon glyphicon-circle-arrow-down btn btn-danger" href=""></a>
+            {{ votacion }}
+        <hr>
+        <hr>
+            <h3>Comentarios</h3>
         <hr>
         <div class="row">
             {% for comment in comments %}
@@ -32,13 +36,13 @@
             {% endfor %}
         </div>
         <br>
-        <div class="row">
-            <form method="POST" class="comment-form">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="save btn btn-default">Save</button>
-            </form>
-        </div>
+        {% if request.user.is_authenticated %}
+            <div class="row">
+                <form method="POST" class="comment-form">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="save btn btn-default">Save</button>
+                </form>
+            </div>
+        {% endif %}
     {% endblock %}
-    </body>
-</html>
