@@ -28,7 +28,7 @@
             {% for comment in comments %}
                 <table>
                     <tr>
-                        <td>Creado el: {{ comment.created_date}}</td>
+                        <td>Creado el: {{ comment.created_date}} por: {{ comment.author }}</td>
                         <td>-></td>
                         <td>Comentario: {{ comment.text }}</td>
                     </tr>
