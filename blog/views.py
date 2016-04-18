@@ -20,6 +20,12 @@ from django.core.urlresolvers import reverse
     # punto de ruptura -> import ipdb; ipdb.set_trace()
     #return render(request, 'blog/post_list.html', {'posts': posts})
 
+class LoginRequiredMixin(object):
+    @classmethod
+    def as_view(cls, **initkwargs):
+        view = super(LoginRequiredMixin, cls).as_view(**initkwargs)
+        return login_required(view,login_url='login')
+
 class PostList(ListView):
     context_object_name = 'posts'
     
@@ -94,7 +100,7 @@ class PostCreate(CreateView):
 #         form = PostForm()
 #     return render(request, 'blog/post_edit.html', {'form': form})
 
-class EditPost(UpdateView):
+class EditPost(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title','text']
     template_name = 'blog/post_edit.html'
@@ -116,9 +122,9 @@ class EditPost(UpdateView):
 #         form = PostForm(instance=post)
 #     return render(request, 'blog/post_edit.html', {'form': form, 'post': post})
 
-class PostDelete(DeleteView):
+class PostDelete(LoginRequiredMixin, DeleteView):
     model = Post
-    
+
     def get_success_url(self):
         return reverse('post_list')
 
