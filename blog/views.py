@@ -71,6 +71,7 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(post=self.object).order_by('created_date')
         context['form'] = CommentForm()
+        return context
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated():
@@ -87,8 +88,6 @@ class PostDetail(DetailView):
         else:
             return redirect('login')
 
-        
-        return context
 
     def get_success_url(self):
         return reverse('post_detail', kwargs={'pk':self.object.pk})
@@ -159,3 +158,13 @@ class PostDelete(LoginRequiredMixin, DeleteView):
 #     post = get_object_or_404(Post, pk=pk)
 #     post.delete()
 #     return redirect('post_list')
+
+def comment_like(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.like()
+    return redirect('post_detail', pk=comment.post.pk)
+
+def comment_dislike(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.dislike()
+    return redirect('post_detail', pk=comment.post.pk)

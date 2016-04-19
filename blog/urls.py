@@ -11,4 +11,6 @@ urlpatterns = [
 	url(r'^post/(?P<pk>[0-9]+)/delete/$', views.PostDelete.as_view(), name='post_delete'),
 	#url(r'^logout/$','django.contrib.auth.views.logout',{'next_page':'/'})
 	url(r'^about/', TemplateView.as_view(template_name="about.html"),name='about'),
+	url(r'^comment/(?P<pk>[0-9]+)/like/$',views.comment_like, name='comment_like'),
+	url(r'^comment/(?P<pk>[0-9]+)/dislike/$',views.comment_dislike, name='comment_dislike')
 ]

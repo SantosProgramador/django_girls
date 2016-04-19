@@ -19,7 +19,6 @@
             <h3>Puntuación</h3>
             <a class="glyphicon glyphicon-circle-arrow-up btn btn-success" href=""></a>
             <a class="glyphicon glyphicon-circle-arrow-down btn btn-danger" href=""></a>
-            {{ votacion }}
         <hr>
         <hr>
             <h3>Comentarios</h3>
@@ -32,6 +31,14 @@
                     </tr>
                     <tr>
                         <td>Comentario: {{ comment.text }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Puntuación</h3>
+                            <a class="glyphicon glyphicon-circle-arrow-up btn btn-success" href="{% url 'comment_like' pk=comment.pk %}"></a> {{ comment.likes }}
+
+                            <a class="glyphicon glyphicon-circle-arrow-down btn btn-danger" href="{% url 'comment_dislike' pk=comment.pk %}"></a> {{ comment.dislikes }}
+                        </td>
                     </tr>
                 </table>
             {% endfor %}

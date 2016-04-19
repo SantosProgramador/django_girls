@@ -2,27 +2,37 @@ from django.db import models
 from django.utils import timezone
 
 class Post(models.Model):
-	author = models.ForeignKey('auth.User')
-	title = models.CharField(max_length=200)
-	text = models.TextField()
-	created_date = models.DateTimeField(
-		default=timezone.now)
-	published_date = models.DateTimeField(
-		blank=True, null=True)
+    author = models.ForeignKey('auth.User')
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(
+        default=timezone.now)
+    published_date = models.DateTimeField(
+        blank=True, null=True)
 
-	def publish(self):
-		self.publish_date = timezone.now()
-		self.save()
+    def publish(self):
+        self.publish_date = timezone.now()
+        self.save()
 
-	def __str__(self):
-		return self.title
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):
-	author = models.ForeignKey('auth.User')
-	post = models.ForeignKey(Post)
-	text = models.TextField()
-	created_date = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey('auth.User')
+    post = models.ForeignKey(Post)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
 
-	def __str__(self):
-		return self.text
+    def __str__(self):
+        return self.text
+
+    def like(self):
+        self.likes += 1
+        self.save()
+
+    def dislike(self):
+        self.dislikes += 1
+        self.save()
